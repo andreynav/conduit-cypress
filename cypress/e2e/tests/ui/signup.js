@@ -15,7 +15,7 @@ describe('Sign up - sign in suite', () => {
     common.openPage('/')
   })
 
-  it('should register a new user', () => {
+  it('should register a new user', { tags: '@smoke' },() => {
     signup.openSignupPage()
     signup.registerUser(name, email, password)
   })
@@ -26,7 +26,7 @@ describe('Sign up - sign in suite', () => {
     login.verifyLoginPageIsOpened()
   })
 
-  it('should login as an existing user', () => {
+  it('should login as an existing user',() => {
     login.openLoginPage()
     login.loginUser(userName, userEmail, userPassword)
   })
@@ -43,7 +43,7 @@ describe('Sign up - sign in suite', () => {
     login.verifyErrorAuthMessage()
   })
 
-  it('should logout a user', () => {
+  it('should logout a user',() => {
     loginAPI.userLogin(userEmail, userPassword)
     common.reloadPage()
     login.logoutUser(userName)
