@@ -20,9 +20,17 @@
     "sqlz": "npx -w backend sequelize-cli",
     "start": "npm run build -w frontend && npm run start -w backend",
     "test": "vitest",
-    "prettier": "npx prettier --write cypress --write cypress"
+    "prettier": "npx prettier --write cypress --write cypress",
+    "cy-all-chrome": "npx cypress run --headed --browser chrome",
+    "cy-all-chrome-prod": "ENV=prod npx cypress run --headed --browser chrome",
+    "cy-all-cli": "npx cypress run",
+    "cy-smoke-cli": "npx cypress run --env grepTags=@smoke,grepFilterSpecs=true",
+    "cy-smoke-chrome": "npx cypress run --headed --browser chrome --env grepTags=@smoke,grepFilterSpecs=true",
+    "cy-login-chrome": "npx cypress run --headed --browser chrome --env grep=login"
+
   },
   "devDependencies": {
+    "@cypress/grep": "^3.1.5",
     "@faker-js/faker": "^8.0.2",
     "@vitejs/plugin-react-swc": "^3.2.0",
     "concurrently": "^7.6.0",
