@@ -6,7 +6,7 @@ import {
   loginViaApi,
   getArticleFieldActions,
   getArticleFieldSelectors,
-  createArticleViaApi
+  createArticleViaApi, getNewPostBody
 } from '../../../support/utils'
 import { articleAPI } from '../../pages/api/ArticleAPI'
 
@@ -235,6 +235,28 @@ describe('Articles suite', () => {
       home.clickSpecificTag('react')
       home.verifyTabIsActive(home.tabTag)
       article.checkIsArticleExists(newArticle.title, true)
+    })
+
+    afterEach(() => {
+      articleAPI.deleteArticle(newArticle)
+    })
+  })
+
+  describe('should add a comment to your existing article', () => {
+    const newArticle = getNewArticle()
+    const newPostBody = getNewPostBody()
+
+    beforeEach(() => {
+      loginViaApi(email, password)
+      createArticleViaApi(newArticle)
+      article.verifyShouldArticleExists(newArticle.title, true)
+      article.selectArticleByTitle(newArticle.title)
+      article.verifyNoCommentMessage()
+    })
+
+    it('should add a comment to your existing article', () => {
+      article.addNewComment(newPostBody)
+      article.verifyCommentData(newPostBody, 1)
     })
 
     afterEach(() => {

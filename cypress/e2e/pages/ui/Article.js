@@ -21,6 +21,12 @@ class Article {
   buttonArticleLike = '.article-meta button'
   noFavoritesMessageT = `doesn't have favorites`
   noArticlesMessageT = `doesn't have articles`
+  noCommentMessage = '.article-page .article-actions + div form + div'
+  noCommentMessageT = 'There are no comments yet...'
+  textareaPostComment = '.article-page .article-actions + div form textarea'
+  buttonPostComment = '.article-page .article-actions + div form button'
+  commentBlock = '.article-page .article-actions + .row div div.card'
+  commentBlockText = '.article-page .article-actions + .row div div.card p'
 
   verifyNewArticlePageUrl = () => {
     cy.url().should('include', this.newArticleUrl)
@@ -79,6 +85,23 @@ class Article {
     cy.get(this.articleListItem).should('contain.text', this.noArticlesMessageT)
   }
 
+  verifyNoCommentMessage = () => {
+    cy.get(this.noCommentMessage).should('have.text', this.noCommentMessageT)
+  }
+
+  verifyArticleCommentsHasNumber = (number) => {
+    cy.get(this.commentBlock).should('have.length', number)
+  }
+
+  verifyCommentText = (text) => {
+    cy.get(this.commentBlockText).should('have.text', text)
+  }
+
+  verifyCommentData = (text, commentsCount) => {
+    this.verifyArticleCommentsHasNumber(commentsCount)
+    this.verifyCommentText(text)
+  }
+
   inputArticleTitle = (title) => {
     cy.get(this.inputNewArticleTitle).clear().type(title)
   }
@@ -96,6 +119,10 @@ class Article {
     for (const tag of tags) {
       cy.get(this.inputNewArticleTags).type(`${tag},`)
     }
+  }
+
+  inputPostComment = (text) => {
+    cy.get(this.textareaPostComment).clear().type(text)
   }
 
   clickPublishArticleButton = () => {
@@ -120,6 +147,10 @@ class Article {
 
   clickArticleLikeButton = () => {
     cy.get(this.buttonArticleLike).click({ force: true })
+  }
+
+  clickPostCommentButton = () => {
+    cy.get(this.buttonPostComment).click()
   }
 
   selectArticleByTitle = (title) => {
@@ -164,6 +195,11 @@ class Article {
     this.inputArticleDescription(newArticle.description)
     this.inputArticleText(newArticle.text)
     this.clickUpdateArticleButton()
+  }
+
+  addNewComment = (text) => {
+    this.inputPostComment(text)
+    this.clickPostCommentButton()
   }
 
   toggleFavoriteArticle = (title, isAlreadyFavorite) => {

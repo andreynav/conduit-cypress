@@ -27,6 +27,10 @@ export const getNewArticle = () => {
   }
 }
 
+export const getNewPostBody = () => {
+  return faker.lorem.sentence()
+}
+
 export const getArticleFieldActions = () => {
   return {
     title: article.inputArticleTitle,
